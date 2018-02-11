@@ -30,7 +30,7 @@ var renderImg = function (image) {
 
   imglement.querySelector('a.picture img').src = image.url;
   imglement.querySelector('.picture-likes').textContent = image.likes;
-  imglement.querySelector('.picture-comments').textContent = image.comments;
+  imglement.querySelector('.picture-comments').textContent = image.commentsCount;
 
   return imglement;
 };
@@ -47,13 +47,141 @@ for (var j = 0; j < 4; j++) {
 
 imgGrid.appendChild(fragment);
 
+
+/* ------------------------------------------------------------module4-task1-------------- */
+
+var uploadFile = document.querySelector('#upload-file');
+var uploadFormCancel = document.querySelector('#upload-cancel');
+var uploadOverlayForm = document.querySelector('.upload-overlay');
+
+var openEditForm = function () {
+  uploadOverlayForm.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+
+};
+var closeEditForm = function () {
+  uploadOverlayForm.classList.add('hidden');
+  uploadOverlayForm.value = '';
+
+};
+uploadFile.addEventListener('change', openEditForm);
+uploadFormCancel.addEventListener('click', closeEditForm);
+
+/* ------------------------------------------------------------module4-task1 effects 1-------------- */
+
+// var effectPin = document.querySelector('.upload-effect-level-pin');
+
+// ---------------------------------------------------------------------color effects
+
+var imgEffectPrev = document.querySelector('.effect-image-preview');
+
+
+var ImgEffectControls = document.querySelector('.upload-effect-controls');
+
+ImgEffectControls.onclick = function (event) {
+  var controlTarget = event.target.closest('INPUT');
+  if (controlTarget) {
+    if (controlTarget.id === 'upload-effect-chrome') {
+
+      imgEffectPrev.className = ' effect-chrome';
+
+    } else if (controlTarget.id === 'upload-effect-none') {
+      imgEffectPrev.className = ' effect-none';
+    } else if (controlTarget.id === 'upload-effect-sepia') {
+      imgEffectPrev.className = ' effect-sepia';
+    } else if (controlTarget.id === 'upload-effect-marvin') {
+      imgEffectPrev.className = ' effect-marvin';
+    } else if (controlTarget.id === 'upload-effect-phobos') {
+      imgEffectPrev.className = ' effect-phobos';
+    } else if (controlTarget.id === 'upload-effect-heat') {
+      imgEffectPrev.className = ' effect-heat';
+    }
+  }
+};
+
+// -----------------------------------------------------------------------resize-controls
+
+var resizeButtonDec = document.querySelector('.upload-resize-controls-button-dec');
+var resizeButtonInc = document.querySelector('.upload-resize-controls-button-inc');
+var resizeControlsValue = document.querySelector('.upload-resize-controls-value');
+
+imgEffectPrev.style.transform = ' ';
+
+var resizeControlsVal = Math.round(parseFloat(resizeControlsValue.value)) / 100;
+
+
+var resizeDecHandlerInc = function () {
+
+
+  resizeControlsVal += 0.25;
+  resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%';
+  imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+};
+
+var resizeDecHandlerDec = function () {
+  resizeControlsVal -= 0.25;
+  resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%'; // resizeControlsVal*100 + '%';
+
+  imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+
+};
+resizeButtonDec.addEventListener('click', resizeDecHandlerDec);
+resizeButtonInc.addEventListener('click', resizeDecHandlerInc);
+
+/* ------------------------------------------------------------module4-task1 full screen imge open -------------- */
+
+
+// ----------------open popup
+
+var imges = document.querySelectorAll('a.picture');
+
+var clickedImg = null;
+
 var galleryOverlay = document.querySelector('.gallery-overlay');
 var galleryOverlayStats = document.querySelector('.gallery-overlay-controls');
 
-galleryOverlay.classList.remove('hidden');
-
-galleryOverlay.querySelector('.gallery-overlay-image').src = pictures[1][0]['url'];
-galleryOverlayStats.querySelector('.likes-count').textContent = pictures[1][0]['likes'];
-galleryOverlay.querySelector('.comments-count').textContent = pictures[1][0]['commentsCount'];
+var clickHandler = function (evt) {
 
 
+  clickedImg = evt.currentTarget;
+  clickedImg.classList.add('clicked');
+  var imgurl = evt.path[0]['currentSrc'];
+  var imglikes = evt.path[1]['children'][1]['children'][1]['innerText'];
+  var imgCommentsCount = evt.path[1]['children'][1]['children'][0]['innerText'];
+
+
+  galleryOverlay.classList.remove('hidden');
+
+  galleryOverlay.querySelector('.gallery-overlay-image').src = imgurl;
+  galleryOverlayStats.querySelector('.likes-count').textContent = imglikes;
+  galleryOverlay.querySelector('.comments-count').textContent = imgCommentsCount;
+
+  document.addEventListener('keydown', onPopupEscPress);
+
+};
+
+for (var y = 0; y < imges.length; y++) {
+  imges[y].addEventListener('click', clickHandler);
+}
+
+// -----------------close popup
+
+var ESC_KEYCODE = 27;
+
+var closeOverlay = document.querySelector('.gallery-overlay-close');
+
+var closeClickHandler = function () {
+
+  galleryOverlay.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    uploadOverlayForm.classList.add('hidden');
+    galleryOverlay.classList.add('hidden');
+    document.removeEventListener('keydown', onPopupEscPress);
+  }
+};
+
+closeOverlay.addEventListener('click', closeClickHandler);
