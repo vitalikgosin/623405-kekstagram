@@ -164,9 +164,30 @@ for (var y = 0; y < imges.length; y++) {
   imges[y].addEventListener('click', clickHandler);
 }
 
-// -----------------close popup
+// -----------------------------------------------------------------------------close popup
 
 var ESC_KEYCODE = 27;
+
+// ----------------------------------------esc when text input focus
+
+var formHashtag = document.querySelector('.upload-form-hashtags');
+var formDescription = document.querySelector('.upload-form-description');
+
+var formInputOnFocus = false;
+
+var focusHandler = function () {
+  formInputOnFocus = true;
+
+};
+var blurHandler = function () {
+  formInputOnFocus = false;
+};
+
+formDescription.addEventListener('focus', focusHandler);
+formDescription.addEventListener('blur', blurHandler);
+formHashtag.addEventListener('focus', focusHandler);
+formHashtag.addEventListener('blur', blurHandler);
+// -----------------------------------------------------
 
 var closeOverlay = document.querySelector('.gallery-overlay-close');
 
@@ -177,7 +198,7 @@ var closeClickHandler = function () {
 };
 
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === ESC_KEYCODE && formInputOnFocus === false) {
     uploadOverlayForm.classList.add('hidden');
     galleryOverlay.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
