@@ -189,6 +189,51 @@ formHashtag.addEventListener('focus', focusHandler);
 formHashtag.addEventListener('blur', blurHandler);
 // -----------------------------------------------------
 
+// --------------------------------------------------------------------heshtags validation
+var uploadSubmit = document.querySelector('#upload-submit');
+
+;
+var sendClickHandler = function (evt) {
+  
+  //evt.preventDefault();
+  var arrFormHashtag = formHashtag.value.split(' ');
+
+  for (var z = 0; z < arrFormHashtag.length; z++){
+  if ( arrFormHashtag[z].charAt(0) != '#'){
+    
+    console.log(arrFormHashtag[z].charAt(0));
+
+   
+    formHashtag.setCustomValidity("This not valid value for this form no #");
+    break;
+
+
+ 
+  }
+  if ( arrFormHashtag[z].length > 20 ){
+ 
+    console.log(arrFormHashtag[z].length);
+    formHashtag.setCustomValidity("This not valid value for this form  tag length > 20");
+ 
+
+ 
+  }
+  if ( arrFormHashtag.length > 5){
+    console.log(arrFormHashtag.length);
+    formHashtag.setCustomValidity("This not valid value for this form  to many tags");
+
+
+ 
+  }
+  }
+  
+
+}
+uploadSubmit.addEventListener('click', sendClickHandler);
+
+
+// ----------------------------------------------------
+
 var closeOverlay = document.querySelector('.gallery-overlay-close');
 
 var closeClickHandler = function () {
