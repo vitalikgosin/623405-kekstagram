@@ -160,13 +160,13 @@ var clickHandler = function (evt) {
 
 };
 
-function addHandlersForImages(images) {
-  for (var y = 0; y < images.length; y++) {
-    images[y].addEventListener('click', clickHandler);
+function addHandlersForImages(imges) {
+  for (var y = 0; y < imges.length; y++) {
+    imges[y].addEventListener('click', clickHandler);
   }
 }
 
-addHandlersForImages(images); // cюда передаешь массив своих картинок
+addHandlersForImages(imges); // cюда передаешь массив своих картинок
 
 // ----------------------------------------hashtags validity
 
