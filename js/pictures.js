@@ -73,28 +73,28 @@ uploadFormCancel.addEventListener('click', closeEditForm);
 
 // ---------------------------------------------------------------------color effects
 
-var imgEffectPrev = document.querySelector('.effect-image-preview');
+var mgEffectControlsElement = document.querySelector('.effect-image-preview');
 
 
 var ImgEffectControls = document.querySelector('.upload-effect-controls');
 
-ImgEffectControls.onclick = function (event) {
-  var controlTarget = event.target.closest('INPUT');
+ImgEffectControls.onclick = function (evt) {
+  var controlTarget = evt.target.closest('INPUT');
   if (controlTarget) {
     if (controlTarget.id === 'upload-effect-chrome') {
 
-      imgEffectPrev.className = ' effect-chrome';
+      mgEffectControlsElement.className = ' effect-chrome';
 
     } else if (controlTarget.id === 'upload-effect-none') {
-      imgEffectPrev.className = ' effect-none';
+      mgEffectControlsElement.className = ' effect-none';
     } else if (controlTarget.id === 'upload-effect-sepia') {
-      imgEffectPrev.className = ' effect-sepia';
+      mgEffectControlsElement.className = ' effect-sepia';
     } else if (controlTarget.id === 'upload-effect-marvin') {
-      imgEffectPrev.className = ' effect-marvin';
+      mgEffectControlsElement.className = ' effect-marvin';
     } else if (controlTarget.id === 'upload-effect-phobos') {
-      imgEffectPrev.className = ' effect-phobos';
+      mgEffectControlsElement.className = ' effect-phobos';
     } else if (controlTarget.id === 'upload-effect-heat') {
-      imgEffectPrev.className = ' effect-heat';
+      mgEffectControlsElement.className = ' effect-heat';
     }
   }
 };
@@ -105,7 +105,7 @@ var resizeButtonDec = document.querySelector('.upload-resize-controls-button-dec
 var resizeButtonInc = document.querySelector('.upload-resize-controls-button-inc');
 var resizeControlsValue = document.querySelector('.upload-resize-controls-value');
 
-imgEffectPrev.style.transform = ' ';
+mgEffectControlsElement.style.transform = ' ';
 
 var resizeControlsVal = Math.round(parseFloat(resizeControlsValue.value)) / 100;
 
@@ -115,14 +115,14 @@ var resizeDecHandlerInc = function () {
 
   resizeControlsVal += 0.25;
   resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%';
-  imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+  mgEffectControlsElement.style.transform = 'scale(' + resizeControlsVal + ')';
 };
 
 var resizeDecHandlerDec = function () {
   resizeControlsVal -= 0.25;
   resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%'; // resizeControlsVal*100 + '%';
 
-  imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+  mgEffectControlsElement.style.transform = 'scale(' + resizeControlsVal + ')';
 
 };
 resizeButtonDec.addEventListener('click', resizeDecHandlerDec);
@@ -187,50 +187,67 @@ formDescription.addEventListener('focus', focusHandler);
 formDescription.addEventListener('blur', blurHandler);
 formHashtag.addEventListener('focus', focusHandler);
 formHashtag.addEventListener('blur', blurHandler);
-// -----------------------------------------------------
 
-// --------------------------------------------------------------------heshtags validation
-var uploadSubmit = document.querySelector('#upload-submit');
 
-;
-var sendClickHandler = function (evt) {
+// ----------------------------------------esc when text input focus
+
+var uploadFormHashtags = document.querySelector('.upload-form-hashtags');
+var MAX_LENGTH_OF_HASHTAG = 20;
+var MAX_COUNT_HASHTAG = 5;
+
+
+function onInputTagInvalid(evt) {
   
-  //evt.preventDefault();
-  var arrFormHashtag = formHashtag.value.split(' ');
+  var hashtags = evt.target.value.toLowerCase().split(' ');
 
-  for (var z = 0; z < arrFormHashtag.length; z++){
-  if ( arrFormHashtag[z].charAt(0) != '#'){
+  var obj = {};
+
+  for (var i = 0; i < hashtags.length; i++) {
+    var hashtag = hashtags[i];
     
-    console.log(arrFormHashtag[z].charAt(0));
-
+    if (hashtag.indexOf('#', 0) !== 0) {
+      evt.target.setCustomValidity('Хэш-тег должен начинаться с символа #');
+      setErrorRedLine(evt);
+      return;
+    }
    
-    formHashtag.setCustomValidity("This not valid value for this form no #");
-    break;
+    if (hashtag.length > MAX_LENGTH_OF_HASHTAG) {
+      evt.target.setCustomValidity('Максимальная длина одного хэш-тега 20 символов');
+      setErrorRedLine(evt);
+      return;
+    }
+    
+    if (hashtag.lastIndexOf('#') !== 0) {
+      evt.target.setCustomValidity('хэш-теги должны разделятся пробелами');
+      setErrorRedLine(evt);
+      return;
+    }
+    // если i элемент находиться в объекте, то
+    if (hashtag in obj) {
+      evt.target.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды;');
+      setErrorRedLine(evt);
+      return;
+    }
 
+    if (hashtags.length > MAX_COUNT_HASHTAG) {
+      evt.target.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+      setErrorRedLine(evt);
+      return;
+    }
 
- 
+    obj[hashtag] = true; // запомнить масив в виде свойства объекта для проверки на повторение
+    // сбрасываем
+    evt.target.setCustomValidity('');
+    evt.target.style.border = '';
   }
-  if ( arrFormHashtag[z].length > 20 ){
- 
-    console.log(arrFormHashtag[z].length);
-    formHashtag.setCustomValidity("This not valid value for this form  tag length > 20");
- 
-
- 
-  }
-  if ( arrFormHashtag.length > 5){
-    console.log(arrFormHashtag.length);
-    formHashtag.setCustomValidity("This not valid value for this form  to many tags");
-
-
- 
-  }
-  }
-  
-
 }
-uploadSubmit.addEventListener('click', sendClickHandler);
 
+//  функция для отрисовки красной линии при ошибке
+function setErrorRedLine(evt) {
+  evt.target.style.border = '2px solid red';
+}
+
+uploadFormHashtags.addEventListener('input', onInputTagInvalid);
 
 // ----------------------------------------------------
 
