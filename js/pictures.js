@@ -160,36 +160,15 @@ var clickHandler = function (evt) {
 
 };
 
-for (var y = 0; y < imges.length; y++) {
-  imges[y].addEventListener('click', clickHandler);
+function addHandlersForImages(images) {
+  for (var y = 0; y < images.length; y++) {
+    images[y].addEventListener('click', clickHandler);
+  }
 }
 
-// -----------------------------------------------------------------------------close popup
+addHandlersForImages(images); // cюда передаешь массив своих картинок
 
-var ESC_KEYCODE = 27;
-
-// ----------------------------------------esc when text input focus
-
-var formHashtag = document.querySelector('.upload-form-hashtags');
-var formDescription = document.querySelector('.upload-form-description');
-
-var formInputOnFocus = false;
-
-var focusHandler = function () {
-  formInputOnFocus = true;
-
-};
-var blurHandler = function () {
-  formInputOnFocus = false;
-};
-
-formDescription.addEventListener('focus', focusHandler);
-formDescription.addEventListener('blur', blurHandler);
-formHashtag.addEventListener('focus', focusHandler);
-formHashtag.addEventListener('blur', blurHandler);
-
-
-// ----------------------------------------esc when text input focus
+// ----------------------------------------hashtags validity
 
 var uploadFormHashtags = document.querySelector('.upload-form-hashtags');
 var MAX_LENGTH_OF_HASHTAG = 20;
@@ -197,26 +176,26 @@ var MAX_COUNT_HASHTAG = 5;
 
 
 function onInputTagInvalid(evt) {
-  
+
   var hashtags = evt.target.value.toLowerCase().split(' ');
 
   var obj = {};
 
   for (var i = 0; i < hashtags.length; i++) {
     var hashtag = hashtags[i];
-    
+
     if (hashtag.indexOf('#', 0) !== 0) {
       evt.target.setCustomValidity('Хэш-тег должен начинаться с символа #');
       setErrorRedLine(evt);
       return;
     }
-   
+
     if (hashtag.length > MAX_LENGTH_OF_HASHTAG) {
       evt.target.setCustomValidity('Максимальная длина одного хэш-тега 20 символов');
       setErrorRedLine(evt);
       return;
     }
-    
+
     if (hashtag.lastIndexOf('#') !== 0) {
       evt.target.setCustomValidity('хэш-теги должны разделятся пробелами');
       setErrorRedLine(evt);
@@ -249,7 +228,31 @@ function setErrorRedLine(evt) {
 
 uploadFormHashtags.addEventListener('input', onInputTagInvalid);
 
-// ----------------------------------------------------
+// ---------------------------------------------------- close popup
+
+// -----------------------------check input on focus
+
+var ESC_KEYCODE = 27;
+var formHashtag = document.querySelector('.upload-form-hashtags');
+var formDescription = document.querySelector('.upload-form-description');
+
+var formInputOnFocus = false;
+
+var focusHandler = function () {
+  formInputOnFocus = true;
+
+};
+var blurHandler = function () {
+  formInputOnFocus = false;
+};
+
+formDescription.addEventListener('focus', focusHandler);
+formDescription.addEventListener('blur', blurHandler);
+formHashtag.addEventListener('focus', focusHandler);
+formHashtag.addEventListener('blur', blurHandler);
+
+// -----------
+
 
 var closeOverlay = document.querySelector('.gallery-overlay-close');
 
