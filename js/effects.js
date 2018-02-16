@@ -14,18 +14,29 @@
   imgEffectControlsElement.addEventListener('click', function (evt) {
     var controlTarget = evt.target.closest('INPUT');
     if (controlTarget) {
-      if (controlTarget.id === 'upload-effect-chrome') {
-        imgEffectPrev.className = ' effect-chrome';
-      } else if (controlTarget.id === 'upload-effect-none') {
-        imgEffectPrev.className = ' effect-none';
-      } else if (controlTarget.id === 'upload-effect-sepia') {
-        imgEffectPrev.className = ' effect-sepia';
-      } else if (controlTarget.id === 'upload-effect-marvin') {
-        imgEffectPrev.className = ' effect-marvin';
-      } else if (controlTarget.id === 'upload-effect-phobos') {
-        imgEffectPrev.className = ' effect-phobos';
-      } else if (controlTarget.id === 'upload-effect-heat') {
-        imgEffectPrev.className = ' effect-heat';
+      switch (controlTarget.id) {
+        case ('upload-effect-chrome'):
+          imgEffectPrev.className = ' effect-chrome';
+          break;
+
+        case ('upload-effect-sepia'):
+          imgEffectPrev.className = 'effect-sepia';
+          break;
+
+        case ('upload-effect-marvin'):
+          imgEffectPrev.className = 'effect-marvin';
+          break;
+
+        case ('upload-effect-phobo'):
+          imgEffectPrev.className = 'effect-phobos';
+          break;
+        case ('upload-effect-heat'):
+          imgEffectPrev.className = 'effect-heat';
+          break;
+
+        default:
+          imgEffectPrev.className = 'effect-none';
+          break;
       }
     }
   });
@@ -41,7 +52,7 @@
 
 
   var resizeDecHandlerInc = function () {
-    resizeControlsVal += 0.25;
+    resizeControlsVal = resizeControlsVal + 0.25;
     resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%';
     imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
   };

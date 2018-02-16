@@ -143,9 +143,9 @@ var clickHandler = function (evt) {
 
 };
 
-function addHandlersForImages(imges) {
-  for (var y = 0; y < imges.length; y++) {
-    imges[y].addEventListener('click', clickHandler);
+function addHandlersForImages(images) {
+  for (var y = 0; y < images.length; y++) {
+    images[y].addEventListener('click', clickHandler);
   }
 }
 
@@ -164,8 +164,8 @@ function onInputTagInvalid(e) {
   // создаем пустой объект для проверки массива на одинаковые значения
   var obj = {};
 
-  for (var i = 0; i < hashtags.length; i++) {
-    var hashtag = hashtags[i];
+  for (var z = 0; z < hashtags.length; z++) {
+    var hashtag = hashtags[z];
     // проверка на наличие хэштега первым символом
     if (hashtag.indexOf('#', 0) !== 0) {
       e.target.setCustomValidity('Хэш-тег должен начинаться с символа #');
