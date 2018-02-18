@@ -22,7 +22,7 @@
 
   // ----------------open popup
 
-  var imges = document.querySelectorAll('a.picture');
+  var imagesElements = document.querySelectorAll('a.picture');
 
 
   var galleryOverlay = document.querySelector('.gallery-overlay');
@@ -46,13 +46,13 @@
 
   };
 
-  function addHandlersForImages(imges) {
-    for (var y = 0; y < imges.length; y++) {
-      imges[y].addEventListener('click', clickHandler);
+  function addHandlersForImages(images) {
+    for (var i = 0; i < images.length; i++) {
+      images[i].addEventListener('click', clickHandler);
     }
   }
 
-  addHandlersForImages(imges); // cюда передаешь массив своих картинок
+  addHandlersForImages(imagesElements); // cюда передаешь массив своих картинок
 
   // ----------------------------------------hashtags
 
