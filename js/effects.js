@@ -51,20 +51,19 @@
   var resizeControlsVal = Math.round(parseFloat(resizeControlsValue.value)) / 100;
 
 
-  var resizeDecHandlerInc = function () {
-    resizeControlsVal = resizeControlsVal + 0.25;
-    resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%';
-    imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+  var resizeDecHandler = function (evt) {
+    var incdec = evt.currentTarget.classList.contains('upload-resize-controls-button-inc') ? +1 : -1;
+
+
+    resizeControlsVal = resizeControlsVal + 0.25 * incdec;
+
+    if (resizeControlsVal < 1 && resizeControlsVal > 0.25) {
+
+      resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%';
+      imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+    }
   };
-
-  var resizeDecHandlerDec = function () {
-    resizeControlsVal = resizeControlsVal - 0.25;
-    resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%'; // resizeControlsVal*100 + '%';
-
-    imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
-
-  };
-  resizeButtonDec.addEventListener('click', resizeDecHandlerDec);
-  resizeButtonInc.addEventListener('click', resizeDecHandlerInc);
+  resizeButtonInc.addEventListener('click', resizeDecHandler);
+  resizeButtonDec.addEventListener('click', resizeDecHandler);
 
 })();

@@ -10,6 +10,7 @@ function pushImagesData() {
       commentsCount: window.data.getRandomInteger(0, 1000),
     }]);
   }
+  return pictures;
 }
 pushImagesData();
 
@@ -29,7 +30,7 @@ var imgGridElement = document.querySelector('.pictures');
 var fragment = document.createDocumentFragment();
 
 for (var j = 0; j < 4; j++) {
-  fragment.appendChild(renderImg(pictures[j][0]));
+  fragment.appendChild(renderImg(pushImagesData.pictures[j][0]));
 }
 
 imgGridElement.appendChild(fragment);
