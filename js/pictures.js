@@ -1,22 +1,18 @@
 // Файл setup.js
 'use strict';
-
-var COMMENTS = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
-
-
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1));
+function pushImagesData() {
+  var pictures = [];
+  for (var i = 1; i <= 25; i++) {
+    pictures.push([{
+      url: 'photos/' + i + '.jpg',
+      comments: window.data.COMMENTS [window.data.getRandomInteger(1, window.data.COMMENTS.length)],
+      likes: window.data.getRandomInteger(15, 200),
+      commentsCount: window.data.getRandomInteger(0, 1000),
+    }]);
+  }
+  return pictures;
 }
-
-var pictures = [];
-for (var i = 1; i <= 25; i++) {
-  pictures.push([{
-    url: 'photos/' + i + '.jpg',
-    comments: COMMENTS [getRndInteger(1, COMMENTS.length)],
-    likes: getRndInteger(15, 200),
-    commentsCount: getRndInteger(0, 1000),
-  }]);
-}
+pushImagesData();
 
 var pictureTemplate = document.querySelector('#picture-template').content;
 
@@ -34,7 +30,7 @@ var imgGridElement = document.querySelector('.pictures');
 var fragment = document.createDocumentFragment();
 
 for (var j = 0; j < 4; j++) {
-  fragment.appendChild(renderImg(pictures[j][0]));
+  fragment.appendChild(renderImg(pushImagesData.pictures[j][0]));
 }
 
 imgGridElement.appendChild(fragment);
@@ -65,7 +61,7 @@ uploadFormCancel.addEventListener('click', closeEditForm);
 
 // ---------------------------------------------------------------------color effects
 
-var imgEffectPrev = document.querySelector('.effect-image-preview');
+var imgEffectPreview = document.querySelector('.effect-image-preview');
 
 var imgEffectControlsElement = document.querySelector('.upload-effect-controls');
 
@@ -73,17 +69,17 @@ imgEffectControlsElement.addEventListener('click', function (evt) {
   var controlTarget = evt.target.closest('INPUT');
   if (controlTarget) {
     if (controlTarget.id === 'upload-effect-chrome') {
-      imgEffectPrev.className = ' effect-chrome';
+      imgEffectPreview.className = ' effect-chrome';
     } else if (controlTarget.id === 'upload-effect-none') {
-      imgEffectPrev.className = ' effect-none';
+      imgEffectPreview.className = ' effect-none';
     } else if (controlTarget.id === 'upload-effect-sepia') {
-      imgEffectPrev.className = ' effect-sepia';
+      imgEffectPreview.className = ' effect-sepia';
     } else if (controlTarget.id === 'upload-effect-marvin') {
-      imgEffectPrev.className = ' effect-marvin';
+      imgEffectPreview.className = ' effect-marvin';
     } else if (controlTarget.id === 'upload-effect-phobos') {
-      imgEffectPrev.className = ' effect-phobos';
+      imgEffectPreview.className = ' effect-phobos';
     } else if (controlTarget.id === 'upload-effect-heat') {
-      imgEffectPrev.className = ' effect-heat';
+      imgEffectPreview.className = ' effect-heat';
     }
   }
 });
@@ -93,7 +89,7 @@ var resizeButtonDec = document.querySelector('.upload-resize-controls-button-dec
 var resizeButtonInc = document.querySelector('.upload-resize-controls-button-inc');
 var resizeControlsValue = document.querySelector('.upload-resize-controls-value');
 
-imgEffectPrev.style.transform = ' ';
+imgEffectPreview.style.transform = ' ';
 
 var resizeControlsVal = Math.round(parseFloat(resizeControlsValue.value)) / 100;
 
@@ -101,14 +97,14 @@ var resizeControlsVal = Math.round(parseFloat(resizeControlsValue.value)) / 100;
 var resizeDecHandlerInc = function () {
   resizeControlsVal += 0.25;
   resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%';
-  imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+  imgEffectPreview.style.transform = 'scale(' + resizeControlsVal + ')';
 };
 
 var resizeDecHandlerDec = function () {
   resizeControlsVal = resizeControlsVal - 0.25;
   resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%'; // resizeControlsVal*100 + '%';
 
-  imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+  imgEffectPreview.style.transform = 'scale(' + resizeControlsVal + ')';
 
 };
 resizeButtonDec.addEventListener('click', resizeDecHandlerDec);
@@ -143,9 +139,9 @@ var clickHandler = function (evt) {
 
 };
 
-function addHandlersForImages(imges) {
-  for (var y = 0; y < imges.length; y++) {
-    imges[y].addEventListener('click', clickHandler);
+function addHandlersForImages(images) {
+  for (var y = 0; y < images.length; y++) {
+    images[y].addEventListener('click', clickHandler);
   }
 }
 
@@ -164,8 +160,8 @@ function onInputTagInvalid(e) {
   // создаем пустой объект для проверки массива на одинаковые значения
   var obj = {};
 
-  for (var i = 0; i < hashtags.length; i++) {
-    var hashtag = hashtags[i];
+  for (var z = 0; z < hashtags.length; z++) {
+    var hashtag = hashtags[z];
     // проверка на наличие хэштега первым символом
     if (hashtag.indexOf('#', 0) !== 0) {
       e.target.setCustomValidity('Хэш-тег должен начинаться с символа #');
