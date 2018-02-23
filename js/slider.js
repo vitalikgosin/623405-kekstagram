@@ -6,14 +6,13 @@ var effectLevelBar = document.querySelector('.upload-effect-level');
 var effectLevelLine = effectLevelBar.querySelector('.upload-effect-level-line');
 var pinHandle = effectLevelBar.querySelector('.upload-effect-level-pin');
 var effectLevelVal = document.querySelector('.upload-effect-level-val');
-
+var MINPINCOORDS = 0;
+var MAXPINCOORDS = 455;
 
 pinHandle.addEventListener('mousedown', function (downEvt) {
   downEvt.preventDefault();
 
-  var startCoords = {
-    x: downEvt.clientX,
-  };
+  var startCoordsX = downEvt.clientX;
 
 
   var dragged = false;
@@ -22,21 +21,18 @@ pinHandle.addEventListener('mousedown', function (downEvt) {
     moveEvt.preventDefault();
     dragged = true;
 
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-    };
+    var shift = startCoordsX - moveEvt.clientX;
 
-    startCoords = {
-      x: moveEvt.clientX,
-    };
-    if (pinHandle.offsetLeft >= 0 && pinHandle.offsetLeft <= 455) {
-      pinHandle.style.left = (pinHandle.offsetLeft - shift.x) + 'px';
+    startCoordsX = moveEvt.clientX;
 
-    } else if (pinHandle.offsetLeft <= 0) {
-      pinHandle.style.left = 0;
+    if (pinHandle.offsetLeft >= MINPINCOORDS && pinHandle.offsetLeft <= MAXPINCOORDS) {
+      pinHandle.style.left = (pinHandle.offsetLeft - shift) + 'px';
 
-    } else if (pinHandle.offsetLeft > 455) {
-      pinHandle.style.left = 455 + 'px';
+    } else if (pinHandle.offsetLeft <= MINPINCOORDS) {
+      pinHandle.style.left = MINPINCOORDS;
+
+    } else if (pinHandle.offsetLeft > MAXPINCOORDS) {
+      pinHandle.style.left = MAXPINCOORDS + 'px';
 
     }
     var effectLevelValnum = Math.floor(parseInt(pinHandle.style.left, 10) / 4.55);
