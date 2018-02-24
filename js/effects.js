@@ -46,7 +46,7 @@
   var resizeButtonInc = document.querySelector('.upload-resize-controls-button-inc');
   var resizeControlsValue = document.querySelector('.upload-resize-controls-value');
 
-  imgEffectPrev.style.transform = ' ';
+  window.imgEffectPrev.style.transform = ' ';
 
   var resizeControlsVal = Math.round(parseFloat(resizeControlsValue.value)) / 100;
 
@@ -60,7 +60,7 @@
     if (resizeControlsVal < 1 && resizeControlsVal > 0.25) {
 
       resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%';
-      imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+      window.imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
     }
   };
   resizeButtonInc.addEventListener('click', resizeDecHandler);
