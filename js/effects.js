@@ -7,7 +7,7 @@
 
 (function () {
 
-  var imgEffectPrev = document.querySelector('.effect-image-preview');
+  window.imgEffectPrev = document.querySelector('.effect-image-preview');
 
   var imgEffectControlsElement = document.querySelector('.upload-effect-controls');
 
@@ -16,26 +16,26 @@
     if (controlTarget) {
       switch (controlTarget.id) {
         case ('upload-effect-chrome'):
-          imgEffectPrev.className = ' effect-chrome';
+          window.imgEffectPrev.className = ' effect-chrome';
           break;
 
         case ('upload-effect-sepia'):
-          imgEffectPrev.className = 'effect-sepia';
+          window.imgEffectPrev.className = 'effect-sepia';
           break;
 
         case ('upload-effect-marvin'):
-          imgEffectPrev.className = 'effect-marvin';
+          window.imgEffectPrev.className = 'effect-marvin';
           break;
 
-        case ('upload-effect-phobo'):
-          imgEffectPrev.className = 'effect-phobos';
+        case ('upload-effect-phobos'):
+          window.imgEffectPrev.className = 'effect-phobos';
           break;
         case ('upload-effect-heat'):
-          imgEffectPrev.className = 'effect-heat';
+          window.imgEffectPrev.className = 'effect-heat';
           break;
 
         default:
-          imgEffectPrev.className = 'effect-none';
+          window.imgEffectPrev.className = 'effect-none';
           break;
       }
     }
@@ -46,7 +46,7 @@
   var resizeButtonInc = document.querySelector('.upload-resize-controls-button-inc');
   var resizeControlsValue = document.querySelector('.upload-resize-controls-value');
 
-  imgEffectPrev.style.transform = ' ';
+  window.imgEffectPrev.style.transform = ' ';
 
   var resizeControlsVal = Math.round(parseFloat(resizeControlsValue.value)) / 100;
 
@@ -60,7 +60,7 @@
     if (resizeControlsVal < 1 && resizeControlsVal > 0.25) {
 
       resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%';
-      imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+      window.imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
     }
   };
   resizeButtonInc.addEventListener('click', resizeDecHandler);
