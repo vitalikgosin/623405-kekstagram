@@ -1,15 +1,6 @@
 'use strict';
 (function () {
-  var pictures = [];
-  for (var i = 1; i <= 25; i++) {
-    pictures.push([{
-      url: 'photos/' + i + '.jpg',
-      comments: window.data.COMMENTS [window.data.randomIinteger(1, window.data.COMMENTS.length)],
-      likes: window.data.randomIinteger(15, 200),
-      commentsCount: window.data.randomIinteger(0, 1000),
-    }]);
-  }
-
+ 
   var pictureTemplate = document.querySelector('#picture-template').content;
 
   var renderImg = function (image) {
@@ -22,13 +13,37 @@
     return imglement;
   };
 
+  
+ // -----------------------------------------------------------  load
+ var successHandler = function (imagesArr) {
+   
   var imgGridElement = document.querySelector('.pictures');
   var fragment = document.createDocumentFragment();
 
-  for (var j = 0; j < 4; j++) {
-    fragment.appendChild(renderImg(pictures[j][0]));
+  for (var i = 0; i < imagesArr.length; i++) {
+    
+    fragment.appendChild(renderImg(imagesArr[i]));
   }
 
   imgGridElement.appendChild(fragment);
+}
+
+  
+// -----------------------------------------------------------  upload
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.backend.load(successHandler, errorHandler);
+
 
 })();
