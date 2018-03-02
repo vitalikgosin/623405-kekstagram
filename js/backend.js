@@ -38,8 +38,9 @@ window.backend = (function () {
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === OKSTATUS) {
         onLoad(xhr.response);
+        window.imgArr = xhr.response;
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -51,12 +52,13 @@ window.backend = (function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 10000; // 10s
+    xhr.timeout = TIMEOUT; // 10s
 
     xhr.open('GET', URL + '/data');
 
     xhr.onload = function () {
       window.popupOpen();
+      window.filters();
     };
     xhr.send();
 

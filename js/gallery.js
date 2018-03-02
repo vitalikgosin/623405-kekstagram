@@ -3,7 +3,7 @@
 
   var pictureTemplate = document.querySelector('#picture-template').content;
 
-  var renderImg = function (image) {
+  window.renderImg = function (image) {
     var imglement = pictureTemplate.cloneNode(true);
 
     imglement.querySelector('a.picture img').src = image.url;
@@ -16,24 +16,32 @@
 
   // -----------------------------------------------------------  load
 
-  var successHandler = function (imagesArr) {
 
-    var imgGridElement = document.querySelector('.pictures');
-    var fragment = document.createDocumentFragment();
+  window.successHandler = function (imagesArr) {
+
+    window.imgGridElement = document.querySelector('.pictures');
+    
+  
+    window.fragment = document.createDocumentFragment();
 
     for (var i = 0; i < imagesArr.length; i++) {
 
-      fragment.appendChild(renderImg(imagesArr[i]));
+      window.fragment.appendChild(window.renderImg(imagesArr[i]));
+      
     }
+    
 
-    imgGridElement.appendChild(fragment);
+    window.imgGridElement.appendChild(window.fragment);
+   
+
+
   };
 
 
   // -----------------------------------------------------------  upload
 
 
-  window.backend.load(successHandler, window.util.errorHandler);
+  window.backend.load(window.successHandler, window.util.errorHandler);
 
 
 })();
