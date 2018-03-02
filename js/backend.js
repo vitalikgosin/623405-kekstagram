@@ -1,10 +1,10 @@
 'use strict';
 window.backend = (function () {
-
+  var URL = 'https://js.dump.academy/kekstagram';
 
   // -------------------------------------------------- onsave
   function onSave(data, onLoad, onError) {
-    var URL = 'https://js.dump.academy/kekstagram/data';
+   
 
 
     var xhr = new XMLHttpRequest();
@@ -34,7 +34,6 @@ window.backend = (function () {
 
   // --------------------------------------------------------load
   function onLoadImages(onLoad, onError) {
-    var URL = 'https://js.dump.academy/kekstagram/data';
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -55,7 +54,7 @@ window.backend = (function () {
 
     xhr.timeout = 10000; // 10s
 
-    xhr.open('GET', URL);
+    xhr.open('GET', URL+'/data');
 
     xhr.onload = function () {
       window.popupOpen();

@@ -1,8 +1,6 @@
 'use strict';
 /* ------------------------------------------------------------module4-task1 effects 1-------------- */
 
-// var effectPin = document.querySelector('.upload-effect-level-pin');
-
 // ---------------------------------------------------------------------color effects
 
 (function () {
@@ -45,6 +43,7 @@
   var resizeButtonDec = document.querySelector('.upload-resize-controls-button-dec');
   var resizeButtonInc = document.querySelector('.upload-resize-controls-button-inc');
   var resizeControlsValue = document.querySelector('.upload-resize-controls-value');
+  resizeControlsValue.value = '100%';
 
   window.imgEffectPrev.style.transform = ' ';
 
@@ -54,13 +53,19 @@
   var resizeDecHandler = function (evt) {
     var incdec = evt.currentTarget.classList.contains('upload-resize-controls-button-inc') ? +1 : -1;
 
-
     resizeControlsVal = resizeControlsVal + 0.25 * incdec;
 
-    if (resizeControlsVal < 1 && resizeControlsVal > 0.25) {
+    switch (true) {
+      case resizeControlsVal < 0.25: resizeControlsVal = 0.25; break;
+      case resizeControlsVal > 1 : resizeControlsVal = 1; break;
+    }
+
+
+    if (resizeControlsVal <= 1 && resizeControlsVal >= 0.25) {
 
       resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%';
       window.imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';
+
     }
   };
   resizeButtonInc.addEventListener('click', resizeDecHandler);

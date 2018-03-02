@@ -166,16 +166,16 @@
 
   // --------------------------------------------------------------------- submit form
 
-  //var uploadOverlayForm = document.querySelector('.upload-form');
-  var form = document.querySelector('form.upload-form');
+  var form = document.querySelector('.upload-form');
   form.addEventListener('submit', function (evt) {
     
-    window.backend.save(new FormData(form), function (response) {
-      //userDialog.classList.add('hidden');
-      window.popupOpen.galleryOverlay.classList.add('hidden');
-      window.closeEditForm();
-    });
     evt.preventDefault();
+    window.backend.save(new FormData(form), function () {
+
+      window.closeEditForm();
+      
+    }, window.util.errorHandler);
+    
   });
 
 })();
