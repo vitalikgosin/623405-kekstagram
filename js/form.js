@@ -2,6 +2,9 @@
 /* ------------------------------------------------------------module4-task1-------------- */
 
 (function () {
+  var ESC_KEYCODE = 27;
+  var MAX_LENGTH_OF_HASHTAG = 20;
+  var MAX_COUNT_HASHTAG = 5;
 
   window.popupOpen = function () {
 
@@ -60,8 +63,6 @@
     // ----------------------------------------hashtags
 
     var uploadFormHashtags = document.querySelector('.upload-form-hashtags');
-    var MAX_LENGTH_OF_HASHTAG = 20;
-    var MAX_COUNT_HASHTAG = 5;
 
     // Функцмя для вылидации поля с хэштегами
     function onInputTagInvalid(e) {
@@ -122,8 +123,6 @@
     // ----------------------------------------------------
 
     // -----------------------------check input on focus
-
-    var ESC_KEYCODE = 27;
     var formHashtag = document.querySelector('.upload-form-hashtags');
     var formDescription = document.querySelector('.upload-form-description');
 
@@ -168,14 +167,11 @@
 
   var form = document.querySelector('.upload-form');
   form.addEventListener('submit', function (evt) {
-    
     evt.preventDefault();
     window.backend.save(new FormData(form), function () {
-
       window.closeEditForm();
-      
     }, window.util.errorHandler);
-    
+
   });
 
 })();

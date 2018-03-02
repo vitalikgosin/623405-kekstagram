@@ -9,6 +9,7 @@ var effectLevelVal = document.querySelector('.upload-effect-level-val');
 var MINPINCOORDS = 0;
 var MAXPINCOORDS = 455;
 
+
 pinHandle.addEventListener('mousedown', function (downEvt) {
   downEvt.preventDefault();
 
@@ -35,34 +36,34 @@ pinHandle.addEventListener('mousedown', function (downEvt) {
       pinHandle.style.left = MAXPINCOORDS + 'px';
 
     }
-    var effectLevelValnum = Math.floor(parseInt(pinHandle.style.left, 10) / 4.55);
+    var EFFECTLEVELVALNUM = Math.floor(parseInt(pinHandle.style.left, 10) / 4.55);
 
-    effectLevelVal.style.width = effectLevelValnum + '%';
+    effectLevelVal.style.width = EFFECTLEVELVALNUM + '%';
 
 
     switch (window.imgEffectPrev.className) {
       case (' effect-chrome'):
-        window.imgEffectPrev.style.filter = 'grayscale(' + effectLevelValnum + '%)';
+        window.imgEffectPrev.style.filter = 'grayscale(' + EFFECTLEVELVALNUM + '%)';
 
         break;
 
       case ('effect-sepia'):
-        window.imgEffectPrev.style.filter = 'sepia(' + effectLevelValnum + '%)';
+        window.imgEffectPrev.style.filter = 'sepia(' + EFFECTLEVELVALNUM + '%)';
 
 
         break;
 
       case ('effect-marvin'):
-        window.imgEffectPrev.style.filter = 'invert(' + effectLevelValnum + '%)';
+        window.imgEffectPrev.style.filter = 'invert(' + EFFECTLEVELVALNUM + '%)';
 
         break;
 
       case ('effect-phobos'):
-        window.imgEffectPrev.style.filter = 'blur(' + effectLevelValnum + 'px)';
+        window.imgEffectPrev.style.filter = 'blur(' + EFFECTLEVELVALNUM + 'px)';
 
         break;
       case ('effect-heat'):
-        window.imgEffectPrev.style.filter = 'brightness(' + effectLevelValnum + '%)';
+        window.imgEffectPrev.style.filter = 'brightness(' + EFFECTLEVELVALNUM + '%)';
 
         break;
       default:

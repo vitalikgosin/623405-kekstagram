@@ -4,6 +4,9 @@
 // ---------------------------------------------------------------------color effects
 
 (function () {
+  var STEP = 0.25;
+  var MINSTEP = 0.25;
+  var MAXSTEP = 1;
 
   window.imgEffectPrev = document.querySelector('.effect-image-preview');
 
@@ -53,15 +56,15 @@
   var resizeDecHandler = function (evt) {
     var incdec = evt.currentTarget.classList.contains('upload-resize-controls-button-inc') ? +1 : -1;
 
-    resizeControlsVal = resizeControlsVal + 0.25 * incdec;
+    resizeControlsVal = resizeControlsVal + STEP * incdec;
 
     switch (true) {
-      case resizeControlsVal < 0.25: resizeControlsVal = 0.25; break;
-      case resizeControlsVal > 1 : resizeControlsVal = 1; break;
+      case resizeControlsVal < MINSTEP: resizeControlsVal = MINSTEP; break;
+      case resizeControlsVal > MAXSTEP : resizeControlsVal = MAXSTEP; break;
     }
 
 
-    if (resizeControlsVal <= 1 && resizeControlsVal >= 0.25) {
+    if (resizeControlsVal <= MAXSTEP && resizeControlsVal >= MINSTEP) {
 
       resizeControlsValue.value = Math.round(parseFloat(resizeControlsVal) * 100) + '%';
       window.imgEffectPrev.style.transform = 'scale(' + resizeControlsVal + ')';

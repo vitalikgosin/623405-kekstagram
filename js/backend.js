@@ -1,18 +1,17 @@
 'use strict';
 window.backend = (function () {
   var URL = 'https://js.dump.academy/kekstagram';
+  var OKSTATUS = 200;
+  var TIMEOUT = 10000;
 
   // -------------------------------------------------- onsave
   function onSave(data, onLoad, onError) {
-   
-
-
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === OKSTATUS) {
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -25,7 +24,7 @@ window.backend = (function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 10000; // 10s
+    xhr.timeout = TIMEOUT; // 10s
 
     xhr.open('POST', URL);
     xhr.send(data);
@@ -54,7 +53,7 @@ window.backend = (function () {
 
     xhr.timeout = 10000; // 10s
 
-    xhr.open('GET', URL+'/data');
+    xhr.open('GET', URL + '/data');
 
     xhr.onload = function () {
       window.popupOpen();
