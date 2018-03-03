@@ -77,14 +77,11 @@
 
         }
         window.setTimeout(function () {
-        window.imgGridElement.appendChild(fragmentNew);
-      }, 1000);
+          window.imgGridElement.appendChild(fragmentNew);
+        }, 1000);
       };
-
       imgSortBy(ImagesSortArrFunc);
-
     };
-
 
     filtersBlock.addEventListener('click', imagesSortHandler);
 

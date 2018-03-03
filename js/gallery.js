@@ -13,33 +13,21 @@
     return imglement;
   };
 
-
   // -----------------------------------------------------------  load
-
 
   window.successHandler = function (imagesArr) {
 
     window.imgGridElement = document.querySelector('.pictures');
-    
-  
     window.fragment = document.createDocumentFragment();
 
     for (var i = 0; i < imagesArr.length; i++) {
 
       window.fragment.appendChild(window.renderImg(imagesArr[i]));
-      
     }
-    
 
     window.imgGridElement.appendChild(window.fragment);
-   
-
-
   };
-
-
   // -----------------------------------------------------------  upload
-
 
   window.backend.load(window.successHandler, window.util.errorHandler);
 
