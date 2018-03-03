@@ -5,83 +5,88 @@
 
 
     var filtersBlock = document.querySelector('.filters');
-    var filterPopularItem = filtersBlock.querySelector('#filter-popular');
+    var sortby;
 
     filtersBlock.classList.remove('filters-inactive');
 
-    var imgArrCopy = window.imgArr;
+    var imgArrCopy = window.imgArr.slice();
 
-    var sortHendler = {
-        likes: 'likes',
-        comments: 'comments.length'
+    var sortHandler = {
+      likes: 'likes',
+      comments: 'comments',
+      random: 'filter-random'
     };
-    
-    // ---------------------------------------------------- sort by popularity
-    
+
+    // ---------------------------------------------------- sort by
+
     var imagesSortHandler = function (evt) {
-        //evt.currentTarget.id.contains('filter-popular');
-        console.log(evt.currentTarget.textContent);
-       if(evt.currentTarget.textContent == 'Популярные'){
-        var sorby = sortHendler.likes;
-        console.log(evt.currentTarget.textContent);
-       }
-       else if (evt.currentTarget.textContent === 'Обсуждаемые'){
-        var sorby = sortHendler.comments;
 
-       }
-        
-      var ImagesSortArrFunc = imgArrCopy.sort(function (first, second) {
+      if (evt.path[0].nodeName !== 'LABEL') {
+        return;
+      }
 
-        
-        if (first['sorby'] > second['sorby']) {
-           
-          return 1;
-        } else if (first['sorby'] < second['sorby']) {
-          return -1;
-      
-        } else {
-          return 0;
-         
-        }
-      });
-      
-      var imgSortByLikes = function (ImagesSortArr) {
+      var ImagesSortArrFunc;
 
-  // ---------------------------------------------------- clear imggrid
+
+      switch (evt.path[0].htmlFor) {
+
+        case ('filter-popular'):
+          sortby = sortHandler.likes;
+          ImagesSortArrFunc = imgArrCopy.sort(function (first, second) {
+
+            return second[sortby] - first[sortby];
+          });
+          break;
+
+
+        case ('filter-discussed'):
+          sortby = sortHandler.comments;
+
+          ImagesSortArrFunc = imgArrCopy.sort(function (first, second) {
+            return second[sortby].length - first[sortby].length;
+          });
+          break;
+        case ('filter-random'):
+
+          ImagesSortArrFunc = imgArrCopy.sort(function () {
+            return (0.5 - Math.random());
+          });
+          break;
+
+        default:
+          ImagesSortArrFunc = window.imgArr;
+
+          break;
+      }
+      var imgSortBy = function (ImagesSortArr) {
+
+        // ---------------------------------------------------- clear imggrid
 
         while (window.imgGridElement.firstChild) {
-       window.imgGridElement.removeChild(window.imgGridElement.firstChild);
+          window.imgGridElement.removeChild(window.imgGridElement.firstChild);
         }
 
-  // ---------------------------------------------------
+        // ----------------------------------------------------- new grid
 
         var fragmentNew = document.createDocumentFragment();
 
 
         for (var i = 0; i < ImagesSortArr.length; i++) {
-    
+
           fragmentNew.appendChild(window.renderImg(ImagesSortArr[i]));
-          
+
         }
-        
+        window.setTimeout(function () {
         window.imgGridElement.appendChild(fragmentNew);
-        
+      }, 1000);
       };
 
-      imgSortByLikes(ImagesSortArrFunc);
+      imgSortBy(ImagesSortArrFunc);
 
     };
 
-    
+
     filtersBlock.addEventListener('click', imagesSortHandler);
-
-    // -------------------------------------------------------------------- sort by discussed
-
-
-
-    
-
-
 
   };
 
