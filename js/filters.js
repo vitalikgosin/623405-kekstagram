@@ -6,6 +6,7 @@
 
     var filtersBlock = document.querySelector('.filters');
     var sortby;
+    var DELAY_TIME = 500;
 
     filtersBlock.classList.remove('filters-inactive');
 
@@ -19,6 +20,12 @@
 
     // ---------------------------------------------------- sort by
 
+    window.imgGridElement.addEventListener('change', function () {
+      window.util.debounce(imagesSortHandler, DELAY_TIME);
+    
+    });
+
+   
     var imagesSortHandler = function (evt) {
 
       if (evt.path[0].nodeName !== 'LABEL') {
@@ -76,14 +83,15 @@
           fragmentNew.appendChild(window.renderImg(ImagesSortArr[i]));
 
         }
-        window.setTimeout(function () {
+       
           window.imgGridElement.appendChild(fragmentNew);
-        }, 1000);
       };
       imgSortBy(ImagesSortArrFunc);
     };
 
     filtersBlock.addEventListener('click', imagesSortHandler);
+
+    
 
   };
 
